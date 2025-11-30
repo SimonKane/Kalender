@@ -21,6 +21,7 @@ try {
 } catch (e) {
   completedDays.value = {};
 }
+completed.value = !!completedDays.value[currentDay.value];
 
 function persist() {
   try {
