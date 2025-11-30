@@ -1,27 +1,26 @@
 <script setup lang="ts">
-import { ref, defineAsyncComponent, shallowRef } from "vue";
+import { ref, defineAsyncComponent, shallowRef, computed } from "vue";
 import dayCodes from "../data/dayCodes.json";
 import tomteBild from "../assets/tomte.png";
 
-// const today = new Date();
-const testDay = 1;
-// const dayOfMonth = computed(() => today.getDate());
+const today = new Date();
+
+const dayOfMonth = computed(() => today.getDate());
 const isOpen = ref(false);
 const dayComponent = shallowRef<any>(null);
 const expectedCode = ref<string | null>(null);
 const inputCode = ref("");
 const codeError = ref("");
-
 const completedDays = ref<Record<number, boolean>>({});
-// const currentDay = computed(() => Math.min(24, Math.max(1, dayOfMonth.value)));
+const currentDay = computed(() => Math.min(24, Math.max(1, dayOfMonth.value)));
 const completed = ref(false);
 
-// try {
-//   const raw = localStorage.getItem("kalender_completed");
-//   if (raw) completedDays.value = JSON.parse(raw);
-// } catch (e) {
-//   completedDays.value = {};
-// }
+try {
+  const raw = localStorage.getItem("kalender_completed");
+  if (raw) completedDays.value = JSON.parse(raw);
+} catch (e) {
+  completedDays.value = {};
+}
 
 function persist() {
   try {
@@ -33,8 +32,9 @@ function persist() {
 }
 
 const openDoor = () => {
-  const day = testDay;
-  const todaysCode = dayCodes[`day${day}`];
+  const day = currentDay.value;
+  const key = `day${day}` as keyof typeof dayCodes;
+  const todaysCode = dayCodes[key];
   expectedCode.value = todaysCode ?? null;
 
   if (completedDays.value[day]) return;
@@ -61,7 +61,7 @@ function onClickSubmit() {
 }
 
 function verifyCode() {
-  const day = testDay;
+  const day = currentDay.value;
   if (!expectedCode.value) return;
   if (
     inputCode.value.trim().toUpperCase() ===
@@ -96,7 +96,7 @@ function verifyCode() {
       <div class="door-container" @click="openDoor">
         <div class="door left-door" :class="{ open: isOpen }"></div>
         <div class="door right-door" :class="{ open: isOpen }"></div>
-        <div class="door-number" v-if="!isOpen">{{ testDay }}</div>
+        <div class="door-number" v-if="!isOpen">{{ currentDay }}</div>
         <div v-if="completed" class="check-overlay">
           <img :src="tomteBild" alt="Tomte" />
         </div>
