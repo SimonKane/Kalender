@@ -6,7 +6,7 @@ import SnowEffect from "./components/SnowEffect.vue";
 <template>
   <div class="app-container">
     <SnowEffect />
-    <h1 class="title">🎄 Julkalender 2025 🎄</h1>
+    <h1 class="title">🎄THE Julkalender 2025!🎄</h1>
     <DayContainer />
   </div>
 </template>
@@ -48,7 +48,7 @@ import SnowEffect from "./components/SnowEffect.vue";
 @media (max-width: 600px) {
   .title {
     font-size: 2em;
-    top: 1rem;
+    top: 4rem;
     max-width: 95vw;
   }
   .app-container {
