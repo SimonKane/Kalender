@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { ref, computed, defineAsyncComponent } from "vue";
+import { ref, defineAsyncComponent, shallowRef } from "vue";
 import dayCodes from "../data/dayCodes.json";
 import tomteBild from "../assets/tomte.png";
 
 // const today = new Date();
-const testDay = 3;
+const testDay = 1;
 // const dayOfMonth = computed(() => today.getDate());
 const isOpen = ref(false);
-const dayComponent = ref<any>(null);
+const dayComponent = shallowRef<any>(null);
 const expectedCode = ref<string | null>(null);
 const inputCode = ref("");
+const codeError = ref("");
+
 const completedDays = ref<Record<number, boolean>>({});
 // const currentDay = computed(() => Math.min(24, Math.max(1, dayOfMonth.value)));
 const completed = ref(false);
@@ -72,6 +74,9 @@ function verifyCode() {
 
     setTimeout(() => {}, 200);
   } else {
+    inputCode.value = "";
+    codeError.value = "Tyvärr fel kod, försök igen!";
+    setTimeout(() => (codeError.value = ""), 2000);
   }
 }
 </script>
@@ -98,12 +103,13 @@ function verifyCode() {
       </div>
     </div>
 
-    <div class="input-container" v-if="isOpen && dayComponent">
+    <div class="input-container" :style="{ opacity: isOpen ? 1 : 0.0 }">
       <input
         type="text"
         v-model="inputCode"
-        placeholder="Skriv in koden här"
+        :placeholder="codeError || 'Skriv in koden här'"
         @keyup.enter="verifyCode"
+        :class="{ 'input-error': !!codeError }"
       />
       <button type="button" @click="onClickSubmit" class="submit-btn">
         Submit
@@ -116,6 +122,9 @@ function verifyCode() {
 </template>
 
 <style scoped>
+* {
+  box-sizing: border-box;
+}
 .container {
   position: relative;
   width: 100%;
@@ -135,6 +144,14 @@ function verifyCode() {
 }
 .door-wrapper {
   position: relative;
+}
+.input-error {
+  border: 2px solid #ff4d4d !important;
+}
+
+.input-error::placeholder {
+  color: #ff4d4d !important;
+  opacity: 1;
 }
 
 .door-container {
@@ -221,9 +238,8 @@ function verifyCode() {
   height: 98%;
   max-width: 85vw;
   min-height: 280px;
-  background: white;
+  background-color: white;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-  padding: 1.25rem;
   box-sizing: border-box; /* ensure padding counts in size */
   max-height: 70vh; /* cap height so it fits on small screens */
   z-index: 1;
@@ -271,12 +287,14 @@ function verifyCode() {
   justify-content: center;
   z-index: 10;
   position: relative;
+  transition: opacity 2s ease;
 }
 .input-container input {
   padding: 0.45rem 0.6rem;
   border-radius: 6px;
   border: none;
   background: rgba(255, 255, 255, 0.9);
+  border: 2px solid transparent;
 }
 .input-container input:focus {
   outline: none;
@@ -318,6 +336,11 @@ function verifyCode() {
     min-height: 260px;
     max-width: 95vw;
   }
+  .reveal-container {
+    height: 98%;
+    border-radius: 12px;
+  }
+
   .door-container {
     width: 220px;
     height: 220px;
@@ -334,7 +357,6 @@ function verifyCode() {
   }
   .reveal-container {
     min-height: 160px;
-    padding: 0.6rem;
     max-height: 65vh;
   }
   .inner-content {

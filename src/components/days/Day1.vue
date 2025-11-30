@@ -40,6 +40,17 @@ const cellClass = (r: number, c: number) => {
     : "pending";
 };
 
+const resetGame = () => {
+  guesses.value = Array(MAX_GUESSES).fill("");
+  results.value = Array.from({ length: MAX_GUESSES }, () =>
+    Array(WORD_LENGTH).fill("pending")
+  );
+  current.value = "";
+  row.value = 0;
+  message.value = "";
+  won.value = false;
+};
+
 const submitGuess = () => {
   if (current.value.length !== WORD_LENGTH) {
     message.value = `Behöver ${WORD_LENGTH} bokstäver`;
@@ -87,9 +98,6 @@ const submitGuess = () => {
     row.value++;
     current.value = "";
     message.value = "";
-    if (row.value >= MAX_GUESSES) {
-      message.value = `BUHU`;
-    }
   }
 };
 const handleKeyDown = (e: KeyboardEvent) => {
@@ -154,14 +162,14 @@ onBeforeUnmount(() => {
 <template>
   <div ref="rootRef" class="wordle-root">
     <div class="card-header">
-      <h2 v-if="!won">Wordle</h2>
+      <h2 v-if="!won && row < MAX_GUESSES">Ordle</h2>
     </div>
 
     <div v-if="won" class="secret-wrap">
       <h1>WOHO! Då vet du koden</h1>
     </div>
 
-    <div v-else class="grid">
+    <div v-else v-if="!won && row < MAX_GUESSES" class="grid">
       <div v-for="r in rows" :key="r" class="row">
         <div
           v-for="c in WORD_LENGTH"
@@ -180,6 +188,12 @@ onBeforeUnmount(() => {
           </span>
         </div>
       </div>
+    </div>
+    <div v-if="!won && row >= MAX_GUESSES" class="loser">
+      <p>BUHU</p>
+      <button class="btn" @click="resetGame">
+        Verkar som du behöver extra försök
+      </button>
     </div>
 
     <div class="controls">
@@ -201,7 +215,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .wordle-root {
-  max-height: 100%;
+  max-height: 99%;
   width: 100%;
   max-width: 360px;
   margin: 0 auto;
@@ -226,10 +240,13 @@ onBeforeUnmount(() => {
   grid-template-columns: repeat(6, 1fr);
   gap: 6px;
 }
+h2 {
+  margin-top: 10px;
+}
 .cell {
   width: 100%;
   aspect-ratio: 1 / 1;
-  border: 2px solid #eee;
+  border: 2px solid #979191;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -298,11 +315,21 @@ onBeforeUnmount(() => {
   font-size: 0.85rem;
   margin-top: 0.5rem;
 }
+.loser {
+  margin-top: 0.5rem;
+  font-size: 2rem;
+}
+
+.loser p {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
 
 @media (max-width: 600px) {
   .wordle-root {
     max-width: 90vw;
     padding: 0.25rem;
+    border-radius: 6px;
   }
 
   .card-header h2 {
@@ -311,6 +338,7 @@ onBeforeUnmount(() => {
 
   .grid {
     gap: 4px;
+    width: 80%;
   }
 
   .row {
@@ -319,7 +347,7 @@ onBeforeUnmount(() => {
 
   .cell {
     border-radius: 4px;
-    font-size: clamp(0.55rem, 3.2vw, 0.85rem); /* mindre text på små skärmar */
+    font-size: clamp(0.55rem, 3.2vw, 0.85rem);
   }
 
   .secret-code {
