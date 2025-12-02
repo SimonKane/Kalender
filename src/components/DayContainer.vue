@@ -25,9 +25,9 @@ const completed = computed(() => {
   return false;
 });
 
-const isReplay = computed(() => {
-  return selectedDay.value !== null && completedDays.value[selectedDay.value];
-});
+// const isReplay = computed(() => {
+//   return selectedDay.value !== null && completedDays.value[selectedDay.value];
+// });
 
 function simpleHash(data: string): string {
   let hash = 0;
