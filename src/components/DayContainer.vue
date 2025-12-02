@@ -12,45 +12,117 @@ const expectedCode = ref<string | null>(null);
 const inputCode = ref("");
 const codeError = ref("");
 const completedDays = ref<Record<number, boolean>>({});
+const selectedDay = ref<number | null>(null);
 const currentDay = computed(() => Math.min(24, Math.max(1, dayOfMonth.value)));
-const completed = ref(false);
+const activeDay = computed(() => selectedDay.value ?? currentDay.value);
+const completed = computed(() => {
+  const day = activeDay.value;
+  if (completedDays.value[day]) return true;
 
-try {
-  const raw = localStorage.getItem("kalender_completed");
-  if (raw) completedDays.value = JSON.parse(raw);
-} catch (e) {
-  completedDays.value = {};
+  const hasData = localStorage.getItem("kalender_completed");
+  if (hasData && !isValidData()) return true;
+
+  return false;
+});
+
+const isReplay = computed(() => {
+  return selectedDay.value !== null && completedDays.value[selectedDay.value];
+});
+
+function simpleHash(data: string): string {
+  let hash = 0;
+  for (let i = 0; i < data.length; i++) {
+    hash = ((hash << 5) - hash + data.charCodeAt(i)) | 0;
+  }
+  return hash.toString(36);
 }
-completed.value = !!completedDays.value[currentDay.value];
+function isValidData(): boolean {
+  try {
+    const raw = localStorage.getItem("kalender_completed");
+    const hashRaw = localStorage.getItem("kalender_hash");
+
+    if (!raw && !hashRaw) return true;
+
+    if (!raw || !hashRaw) return false;
+
+    const expectedHash = simpleHash(raw + "SECRET_SALT_123");
+    return hashRaw === expectedHash;
+  } catch {
+    return false;
+  }
+}
 
 function persist() {
   try {
-    localStorage.setItem(
-      "kalender_completed",
-      JSON.stringify(completedDays.value)
-    );
+    const data = JSON.stringify(completedDays.value);
+    const hash = simpleHash(data + "SECRET_SALT_123");
+
+    localStorage.setItem("kalender_completed", data);
+    localStorage.setItem("kalender_hash", hash);
   } catch (e) {}
 }
 
-const openDoor = () => {
-  const day = currentDay.value;
-  const key = `day${day}` as keyof typeof dayCodes;
+try {
+  if (isValidData()) {
+    const raw = localStorage.getItem("kalender_completed");
+    if (raw) {
+      completedDays.value = JSON.parse(raw);
+    }
+  } else {
+    completedDays.value = {};
+  }
+} catch (e) {
+  completedDays.value = {};
+}
+
+const openDoor = (day?: number) => {
+  // Use the day parameter if provided, otherwise use activeDay (which respects selectedDay)
+  const targetDay = day ?? activeDay.value;
+
+  // If clicking the main door and it's already open, don't reset
+  if (day === undefined && isOpen.value) {
+    return;
+  }
+
+  // Only set selectedDay when clicking from grid
+  if (day !== undefined) {
+    selectedDay.value = targetDay;
+  }
+
+  // If day is already completed, just show the message
+  if (completedDays.value[targetDay]) {
+    isOpen.value = false;
+    return;
+  }
+
+  const key = `day${targetDay}` as keyof typeof dayCodes;
   const todaysCode = dayCodes[key];
   expectedCode.value = todaysCode ?? null;
 
-  if (completedDays.value[day]) return;
+  const hasData = localStorage.getItem("kalender_completed");
+  if (hasData && !isValidData()) {
+    return;
+  }
 
-  if (day >= 1 && day <= 24) {
+  // Close the door when clicking from grid
+  if (day !== undefined) {
+    isOpen.value = false;
+  }
+
+  if (targetDay >= 1 && targetDay <= 24) {
     dayComponent.value = defineAsyncComponent(
-      () => import(`./days/Day${day}.vue`)
+      () => import(`./days/Day${targetDay}.vue`)
     );
   } else {
     dayComponent.value = null;
   }
 
   inputCode.value = "";
-  isOpen.value = true;
-  completed.value = false;
+
+  // Don't auto-open when clicking from grid - only when clicking main door
+  if (day === undefined) {
+    isOpen.value = true;
+  }
 };
 
 function onSolved(code: string) {
@@ -62,7 +134,7 @@ function onClickSubmit() {
 }
 
 function verifyCode() {
-  const day = currentDay.value;
+  const day = selectedDay.value ?? currentDay.value;
   if (!expectedCode.value) return;
   if (
     inputCode.value.trim().toUpperCase() ===
@@ -71,7 +143,6 @@ function verifyCode() {
     completedDays.value[day] = true;
     persist();
     isOpen.value = false;
-    completed.value = true;
 
     setTimeout(() => {}, 200);
   } else {
@@ -94,11 +165,11 @@ function verifyCode() {
         />
       </div>
 
-      <div class="door-container" @click="openDoor">
+      <div class="door-container" @click="() => openDoor()">
         <div class="door left-door" :class="{ open: isOpen }"></div>
         <div class="door right-door" :class="{ open: isOpen }"></div>
-        <div class="door-number" v-if="!isOpen">{{ currentDay }}</div>
-        <div v-if="completed" class="check-overlay">
+        <div class="door-number" v-if="!isOpen">{{ activeDay }}</div>
+        <div v-if="completed && !isOpen" class="check-overlay">
           <img :src="tomteBild" alt="Tomte" />
         </div>
       </div>
@@ -116,8 +187,31 @@ function verifyCode() {
         Submit
       </button>
     </div>
-    <div class="completed" v-if="completed">
-      Bra jobbat! Kom tillbaka igen imorgon
+    <div
+      class="completed"
+      :style="{ visibility: completed && !isOpen ? 'visible' : 'hidden' }"
+    >
+      {{
+        activeDay === currentDay
+          ? "Bra jobbat! Kom tillbaka igen imorgon"
+          : "Bra Jobbat!"
+      }}
+    </div>
+
+    <div class="day-grid">
+      <div
+        v-for="day in 24"
+        :key="day"
+        class="day-cell"
+        :class="{
+          completed: completedDays[day],
+          'not-completed': !completedDays[day] && day <= dayOfMonth,
+          disabled: day > dayOfMonth,
+        }"
+        @click="day <= dayOfMonth ? openDoor(day) : null"
+      >
+        <div class="day-number">{{ day }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -142,6 +236,10 @@ function verifyCode() {
   color: white;
   font-weight: bold;
   margin-top: 1rem;
+  min-height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .door-wrapper {
   position: relative;
@@ -241,8 +339,8 @@ function verifyCode() {
   min-height: 280px;
   background-color: white;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-  box-sizing: border-box; /* ensure padding counts in size */
-  max-height: 70vh; /* cap height so it fits on small screens */
+  box-sizing: border-box;
+  max-height: 70vh;
   z-index: 1;
   opacity: 0;
   transform-origin: center;
@@ -250,7 +348,7 @@ function verifyCode() {
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none; /* don't block clicks when closed */
+  pointer-events: none;
 }
 
 .reveal-container.open {
@@ -330,6 +428,67 @@ function verifyCode() {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.4rem;
+  margin-top: 2rem;
+  max-width: 400px;
+  width: 100%;
+}
+
+.day-cell {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: box-shadow 0.2s;
+}
+
+.day-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.day-cell.completed {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  box-shadow: 0 2px 8px rgba(46, 204, 113, 0.4);
+  margin-top: 0;
+}
+
+.day-cell.not-completed {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+}
+
+.day-cell.disabled {
+  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+  color: #ecf0f1;
+  box-shadow: 0 2px 8px rgba(127, 140, 141, 0.3);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.day-cell:not(.disabled):hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.day-cell:not(.disabled):active {
+  opacity: 0.9;
 }
 
 @media (max-width: 600px) {

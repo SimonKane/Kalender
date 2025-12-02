@@ -29,7 +29,7 @@ const emit = defineEmits<{
 
 const sanitizeInput = (s: string) => {
   return s
-    .replace(/[^a-zA-Z]/g, "")
+    .replace(/[^a-zA-ZÅÄÖåäö]/g, "")
     .toUpperCase()
     .slice(0, WORD_LENGTH);
 };
@@ -107,7 +107,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
     submitGuess();
   } else if (key === "Backspace") {
     current.value = current.value.slice(0, -1);
-  } else if (/^[a-zA-Z]$/.test(key)) {
+  } else if (/^[a-zA-ZÅÄÖåäö]$/.test(key)) {
     if (current.value.length < WORD_LENGTH) {
       current.value = sanitizeInput(current.value + key);
     }
