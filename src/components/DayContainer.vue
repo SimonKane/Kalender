@@ -199,18 +199,123 @@ function verifyCode() {
     </div>
 
     <div class="day-grid">
-      <div
-        v-for="day in 24"
-        :key="day"
-        class="day-cell"
-        :class="{
-          completed: completedDays[day],
-          'not-completed': !completedDays[day] && day <= dayOfMonth,
-          disabled: day > dayOfMonth,
-        }"
-        @click="day <= dayOfMonth ? openDoor(day) : null"
-      >
-        <div class="day-number">{{ day }}</div>
+      <!-- Row 1: 1 cell -->
+      <div class="tree-row row-1">
+        <div
+          v-for="day in [1]"
+          :key="day"
+          class="day-cell"
+          :class="{
+            completed: completedDays[day],
+            'not-completed': !completedDays[day] && day <= dayOfMonth,
+            disabled: day > dayOfMonth,
+          }"
+          @click="day <= dayOfMonth ? openDoor(day) : null"
+        >
+          <div class="day-number">{{ day }}</div>
+        </div>
+      </div>
+
+      <!-- Row 2: 2 cells -->
+      <div class="tree-row row-2">
+        <div
+          v-for="day in [2, 3]"
+          :key="day"
+          class="day-cell"
+          :class="{
+            completed: completedDays[day],
+            'not-completed': !completedDays[day] && day <= dayOfMonth,
+            disabled: day > dayOfMonth,
+          }"
+          @click="day <= dayOfMonth ? openDoor(day) : null"
+        >
+          <div class="day-number">{{ day }}</div>
+        </div>
+      </div>
+
+      <!-- Row 3: 3 cells -->
+      <div class="tree-row row-3">
+        <div
+          v-for="day in [4, 5, 6]"
+          :key="day"
+          class="day-cell"
+          :class="{
+            completed: completedDays[day],
+            'not-completed': !completedDays[day] && day <= dayOfMonth,
+            disabled: day > dayOfMonth,
+          }"
+          @click="day <= dayOfMonth ? openDoor(day) : null"
+        >
+          <div class="day-number">{{ day }}</div>
+        </div>
+      </div>
+
+      <!-- Row 4: 4 cells -->
+      <div class="tree-row row-4">
+        <div
+          v-for="day in [7, 8, 9, 10]"
+          :key="day"
+          class="day-cell"
+          :class="{
+            completed: completedDays[day],
+            'not-completed': !completedDays[day] && day <= dayOfMonth,
+            disabled: day > dayOfMonth,
+          }"
+          @click="day <= dayOfMonth ? openDoor(day) : null"
+        >
+          <div class="day-number">{{ day }}</div>
+        </div>
+      </div>
+
+      <!-- Row 5: 5 cells -->
+      <div class="tree-row row-5">
+        <div
+          v-for="day in [11, 12, 13, 14, 15]"
+          :key="day"
+          class="day-cell"
+          :class="{
+            completed: completedDays[day],
+            'not-completed': !completedDays[day] && day <= dayOfMonth,
+            disabled: day > dayOfMonth,
+          }"
+          @click="day <= dayOfMonth ? openDoor(day) : null"
+        >
+          <div class="day-number">{{ day }}</div>
+        </div>
+      </div>
+
+      <!-- Row 6: 6 cells -->
+      <div class="tree-row row-6">
+        <div
+          v-for="day in [16, 17, 18, 19, 20, 21]"
+          :key="day"
+          class="day-cell"
+          :class="{
+            completed: completedDays[day],
+            'not-completed': !completedDays[day] && day <= dayOfMonth,
+            disabled: day > dayOfMonth,
+          }"
+          @click="day <= dayOfMonth ? openDoor(day) : null"
+        >
+          <div class="day-number">{{ day }}</div>
+        </div>
+      </div>
+
+      <!-- Row 7: 3 cells (trunk) -->
+      <div class="tree-row row-7 trunk">
+        <div
+          v-for="day in [22, 23, 24]"
+          :key="day"
+          class="day-cell"
+          :class="{
+            completed: completedDays[day],
+            'not-completed': !completedDays[day] && day <= dayOfMonth,
+            disabled: day > dayOfMonth,
+          }"
+          @click="day <= dayOfMonth ? openDoor(day) : null"
+        >
+          <div class="day-number">{{ day }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -231,6 +336,7 @@ function verifyCode() {
   align-items: center;
   justify-content: center;
   min-height: 640px;
+  top: 50px;
 }
 .completed {
   color: white;
@@ -431,25 +537,36 @@ function verifyCode() {
 }
 
 .day-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 1rem;
+  max-width: 400px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
+.tree-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.tree-row.trunk {
+  margin-top: 0.3rem;
+}
+
 .day-cell {
-  width: 100%;
-  height: 0;
-  padding-bottom: 100%;
+  width: 40px;
+  height: 40px;
   position: relative;
   border-radius: 8px;
   cursor: pointer;
   user-select: none;
   transition: box-shadow 0.2s;
+  flex-shrink: 0;
 }
 
 .day-number {
@@ -457,7 +574,7 @@ function verifyCode() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   display: block;
   width: 100%;
@@ -497,8 +614,9 @@ function verifyCode() {
 
 @media (max-width: 600px) {
   .container {
-    min-height: 260px;
+    min-height: 100vh;
     max-width: 95vw;
+    padding: 0.5rem;
   }
   .reveal-container {
     height: 98%;
@@ -506,25 +624,68 @@ function verifyCode() {
   }
 
   .door-container {
-    width: 220px;
-    height: 220px;
+    width: 180px;
+    height: 180px;
     max-width: 95vw;
-    max-height: 60vw;
+    max-height: 50vw;
   }
   .door-number {
-    font-size: 4em;
-    max-width: 160px;
+    font-size: 3em;
+    max-width: 140px;
   }
   .door {
-    max-width: 120px;
-    min-width: 60px;
+    max-width: 100px;
+    min-width: 50px;
   }
   .reveal-container {
-    min-height: 160px;
-    max-height: 65vh;
+    min-height: 140px;
+    max-height: 60vh;
   }
   .inner-content {
     padding: 0.25rem;
+  }
+
+  .day-cell {
+    width: 26px;
+    height: 26px;
+  }
+
+  .day-number {
+    font-size: 0.85rem;
+  }
+
+  .tree-row {
+    gap: 0.25rem;
+  }
+
+  .day-grid {
+    gap: 0.15rem;
+    max-width: 240px;
+    margin-top: 0.5rem;
+  }
+
+  .completed {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .input-container {
+    margin-top: 0.5rem;
+  }
+
+  .input-container input {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .input-container .submit-btn {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.6rem;
+  }
+}
+@media (max-width: 349px) {
+  h1 {
+    font-size: 2.5rem;
   }
 }
 </style>
