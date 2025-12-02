@@ -72,7 +72,6 @@ const insetShadow = computed(() => {
 .code-box {
   position: absolute;
   inset: 0;
-  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;

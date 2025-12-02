@@ -335,12 +335,12 @@ function verifyCode() {
   transform: translate(-50%, -50%);
   width: 100%;
   height: 98%;
-  max-width: 85vw;
-  min-height: 280px;
+  max-width: 70vw;
+  min-height: 240px;
   background-color: white;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   box-sizing: border-box;
-  max-height: 70vh;
+  max-height: 60vh;
   z-index: 1;
   opacity: 0;
   transform-origin: center;
@@ -354,11 +354,11 @@ function verifyCode() {
 .reveal-container.open {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
-  pointer-events: auto; /* allow interaction when opened */
+  pointer-events: auto;
 }
 
 .inner-content {
-  width: 100%;
+  width: 85%;
   max-width: 100%;
   max-height: 100%;
   box-sizing: border-box;
@@ -366,6 +366,7 @@ function verifyCode() {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: scale(0.8);
 }
 
 .check-overlay {
@@ -373,7 +374,6 @@ function verifyCode() {
   top: 50%;
   left: 50%;
   transform: translate(-45%, -55%);
-
   z-index: 10;
 }
 

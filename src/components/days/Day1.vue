@@ -216,7 +216,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .wordle-root {
   max-height: 99%;
-  width: 100%;
+  width: 80%;
   max-width: 360px;
   margin: 0 auto;
   text-align: center;
