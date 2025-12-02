@@ -254,8 +254,8 @@ function verifyCode() {
 }
 
 .door-container {
-  width: 500px;
-  height: 500px;
+  width: 300px;
+  height: 300px;
   margin: 0 auto;
   position: relative;
   cursor: pointer;
@@ -269,7 +269,7 @@ function verifyCode() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 9em;
+  font-size: 7em;
   font-weight: bold;
   color: #16160f;
   font-family: "Mountains of Christmas", cursive;
@@ -279,7 +279,7 @@ function verifyCode() {
   z-index: 5;
   pointer-events: none;
   width: 90%;
-  max-width: 420px;
+  max-width: 380px;
   text-align: center;
 }
 
@@ -293,7 +293,7 @@ function verifyCode() {
   transform-style: preserve-3d;
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4),
     0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1);
-  max-width: 260px;
+  max-width: 235px;
   min-width: 120px;
 }
 
@@ -434,8 +434,8 @@ function verifyCode() {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
-  margin-top: 2rem;
-  max-width: 500px;
+  margin-top: 1.5rem;
+  max-width: 300px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -457,7 +457,7 @@ function verifyCode() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
   display: block;
   width: 100%;
