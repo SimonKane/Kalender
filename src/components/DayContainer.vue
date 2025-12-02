@@ -433,10 +433,12 @@ function verifyCode() {
 .day-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 0.4rem;
+  gap: 0.5rem;
   margin-top: 2rem;
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .day-cell {
@@ -455,11 +457,13 @@ function verifyCode() {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   display: block;
   width: 100%;
   text-align: center;
+  pointer-events: none;
+  line-height: 1;
 }
 
 .day-cell.completed {
