@@ -443,7 +443,7 @@ function verifyCode() {
   height: 98%;
   max-width: 70vw;
   min-height: 240px;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   box-sizing: border-box;
   max-height: 60vh;
@@ -464,15 +464,14 @@ function verifyCode() {
 }
 
 .inner-content {
-  width: 85%;
+  width: 100%;
   max-width: 100%;
   max-height: 100%;
   box-sizing: border-box;
-  overflow: auto; /* allow inner content to scroll if it is too large */
+  overflow: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(0.8);
 }
 
 .check-overlay {
