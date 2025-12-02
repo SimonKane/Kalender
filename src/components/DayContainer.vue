@@ -464,7 +464,6 @@ function verifyCode() {
 }
 
 .inner-content {
-  width: 100%;
   max-width: 100%;
   max-height: 100%;
   box-sizing: border-box;

@@ -62,10 +62,11 @@ const insetShadow = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 320px;
+  min-height: 100%;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  top: 0;
 }
 
 .white-box,
