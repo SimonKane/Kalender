@@ -1,7 +1,7 @@
 <template>
   <div class="snippet-wrapper" v-pre>
     <pre class="snippet">
-function FindWhatsMissing() {
+function FindTheTypo() {
     return (
         &lt;div className="tipp-tapp"&gt;
             &lt;Header title="Tomte Badass" /&gt;
@@ -11,7 +11,6 @@ function FindWhatsMissing() {
                     &lt;Component&gt;
                         {children}
                     &lt;/Component&gt;
-
                     &lt;Card&gt;
                         &lt;h2&gt;Ho&lt;/h2&gt;
                           &lt;p&gt;
@@ -22,7 +21,6 @@ function FindWhatsMissing() {
                     &lt;Footer&gt;
                 &lt;/Content&gt;
             &lt;/main&gt;
-
         &lt;/div&gt;
     );
 }
