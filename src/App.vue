@@ -17,7 +17,6 @@ import SnowEffect from "./components/SnowEffect.vue";
   height: 100vh;
   padding: 0;
   margin: 0;
-  overflow: scro;
   background: linear-gradient(135deg, #1a472a 0%, #2d5f3f 50%, #1a472a 100%);
   font-family: "Mountains of Christmas", cursive;
   position: relative;
@@ -56,6 +55,16 @@ import SnowEffect from "./components/SnowEffect.vue";
   }
   .app-container {
     padding-top: 5rem;
+  }
+}
+
+@media (min-width: 768px) and (max-height: 900px) {
+  .app-container {
+    padding-top: 3.5rem;
+  }
+  .title {
+    font-size: 2em;
+    top: 0.5rem;
   }
 }
 

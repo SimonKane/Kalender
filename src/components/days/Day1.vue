@@ -257,6 +257,8 @@ h2 {
   color: #111;
   user-select: none;
   border-radius: 4px;
+  min-width: 0;
+  min-height: 0;
 }
 .cell.correct {
   background: linear-gradient(180deg, #6aaa64, #4f8f4a);

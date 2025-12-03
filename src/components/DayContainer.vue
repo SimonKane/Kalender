@@ -325,6 +325,9 @@ function verifyCode() {
 * {
   box-sizing: border-box;
 }
+template {
+  overflow-y: scroll;
+}
 .container {
   position: relative;
   width: 100%;
@@ -337,6 +340,60 @@ function verifyCode() {
   justify-content: center;
   min-height: 640px;
   top: 50px;
+}
+@media (min-width: 768px) and (max-height: 900px) {
+  .container {
+    padding: 0.5rem;
+    min-height: auto;
+    top: 20px;
+  }
+
+  .day-grid {
+    max-width: 200px !important;
+    gap: 0.15rem !important;
+    margin-top: 0 !important;
+  }
+
+  .tree-row {
+    gap: 0.25rem !important;
+  }
+
+  .day-cell {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .day-number {
+    font-size: 0.85rem !important;
+  }
+
+  .door-container {
+    width: 220px;
+    height: 220px;
+  }
+
+  .door-number {
+    font-size: 4.5em;
+  }
+
+  .completed {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+
+  .input-container {
+    margin-top: 0.5rem;
+  }
+
+  .input-container input {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .input-container .submit-btn {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+  }
 }
 .completed {
   color: white;
