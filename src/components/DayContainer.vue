@@ -440,13 +440,11 @@ function verifyCode() {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 98%;
-  max-width: 70vw;
-  min-height: 240px;
+  height: 100%;
+
   background-color: rgb(255, 255, 255);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   box-sizing: border-box;
-  max-height: 60vh;
   z-index: 1;
   opacity: 0;
   transform-origin: center;

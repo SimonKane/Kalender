@@ -1,7 +1,7 @@
 <template>
   <div class="snippet-wrapper" v-pre>
     <pre class="snippet">
-function FindTheTypo() {
+export function FindWhatsMissing() {
     return (
         &lt;div className="tipp-tapp"&gt;
             &lt;Header title="Tomte Badass" /&gt;
@@ -24,6 +24,8 @@ function FindTheTypo() {
         &lt;/div&gt;
     );
 }
+
+//Ovan är en komponent
 </pre
     >
   </div>
