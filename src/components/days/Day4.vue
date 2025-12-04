@@ -85,7 +85,7 @@ const insetShadow = computed(() => {
   padding: 2rem 1.5rem;
   width: 100%;
   height: 100%;
-  cursor: pointer;
+
   transition: box-shadow 0.2s cubic-bezier(0.4, 2, 0.3, 1),
     transform 0.6s cubic-bezier(0.4, 2, 0.3, 1);
   user-select: none;

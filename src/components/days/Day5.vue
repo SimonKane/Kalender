@@ -1,14 +1,16 @@
 <script setup lang="ts">
-const today = new Date().toLocaleDateString("sv-SE", {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+import { ref } from "vue";
+
+const question = ref("Hans mamma är min mammas enda barn");
+
+function typeWriterEffect() {
+  console.log(question.value.split(""));
+}
 </script>
 
 <template>
-  <h1>{{ today }}</h1>
+  <h1>Hans mamma är min mammas enda barn</h1>
+  <h2>Vem är jag?</h2>
 </template>
 
 <style scoped>
