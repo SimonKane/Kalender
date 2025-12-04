@@ -110,7 +110,9 @@ const openDoor = (day?: number) => {
   }
 
   if (targetDay >= 1 && targetDay <= 24) {
-    dayComponent.value = defineAsyncComponent(() => import(`./days/Day5.vue`));
+    dayComponent.value = defineAsyncComponent(
+      () => import(`./days/Day${targetDay}.vue`)
+    );
   } else {
     dayComponent.value = null;
   }
