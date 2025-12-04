@@ -135,7 +135,8 @@ const insetShadow = computed(() => {
     padding: 1rem 0.5rem;
   }
   .secret-code {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    letter-spacing: 1px;
   }
 }
 </style>

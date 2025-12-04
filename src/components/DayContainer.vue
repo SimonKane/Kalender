@@ -670,10 +670,16 @@ template {
     min-height: 100vh;
     max-width: 95vw;
     padding: 0.5rem;
+    top: 0;
+    gap: 0.5rem;
   }
   .reveal-container {
     height: 98%;
     border-radius: 12px;
+  }
+
+  .door-wrapper {
+    margin-top: -8rem;
   }
 
   .door-container {
@@ -714,7 +720,7 @@ template {
   .day-grid {
     gap: 0.15rem;
     max-width: 240px;
-    margin-top: 0.5rem;
+    margin-top: 0;
   }
 
   .completed {
