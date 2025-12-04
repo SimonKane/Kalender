@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
+// import { ref } from "vue";
 
-const question = ref("Hans mamma är min mammas enda barn");
+// const question = ref("Hans mamma är min mammas enda barn");
 
-function typeWriterEffect() {
-  console.log(question.value.split(""));
-}
+// function typeWriterEffect() {
+//   console.log(question.value.split(""));
+// }
 </script>
 
 <template>
