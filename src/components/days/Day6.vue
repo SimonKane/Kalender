@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const emit = defineEmits(["solved"]);
 function onCopy(e: ClipboardEvent) {
   e.preventDefault();
   alert("Nej du, no copy copy tillåten 🎄");

@@ -137,7 +137,7 @@ function verifyCode() {
   const day = selectedDay.value ?? currentDay.value;
   if (!expectedCode.value) return;
   if (
-    inputCode.value.trim().toUpperCase() ===
+    inputCode.value.trim().toUpperCase().replace(/ /g, "") ===
     String(expectedCode.value).toUpperCase()
   ) {
     completedDays.value[day] = true;
@@ -516,6 +516,7 @@ template {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
   pointer-events: auto;
+  border-radius: 10px;
 }
 
 .inner-content {
@@ -526,6 +527,7 @@ template {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
 }
 
 .check-overlay {
