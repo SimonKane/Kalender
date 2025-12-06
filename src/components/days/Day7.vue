@@ -29,7 +29,7 @@ const checkAnswer = (arr: any) => {
       playerSequence = [];
     }
   }
-  console.log(playerSequence);
+  
 };
 
 const playNote = (note: string) => {
