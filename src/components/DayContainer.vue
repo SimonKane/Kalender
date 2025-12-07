@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, defineAsyncComponent, shallowRef, computed } from "vue";
 import dayCodes from "../data/dayCodes.json";
-import tomteBild from "../assets/tomte.png";
+import tomteBildSrc from "../assets/tomte.png";
 
 const today = new Date();
+const tomteBild = tomteBildSrc;
 
 const dayOfMonth = computed(() => today.getDate());
 const isOpen = ref(false);

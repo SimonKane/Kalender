@@ -1,8 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 const candleLit = ref(false);
 const code = ref("function handler");
 const showCode = ref(false);
+const hints = ref<{ [key: number]: string | null }>({
+  1: null,
+  2: null,
+  3: null,
+  4: null,
+});
+const isMobile = ref(false);
+
+onMounted(() => {
+  if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+    isMobile.value = true;
+  }
+});
 
 function lightCandle(nr: any) {
   if (nr != 2) {
@@ -30,6 +43,13 @@ function runCode() {
     console.error("Error in eval:", e);
   }
 }
+function showHintForCandle(nr: number, text: string) {
+  if (!isMobile.value) return;
+
+  hints.value = { 1: null, 2: null, 3: null, 4: null };
+
+  hints.value[nr] = text;
+}
 </script>
 
 <template>
@@ -43,11 +63,25 @@ function runCode() {
       <h1 class="code" v-if="showCode">{{ code }}</h1>
     </transition>
     <div class="candle-container">
-      <div class="candle lit" title="lightCandle(1)">
+      <div
+        class="candle lit"
+        title="lightCandle(1)"
+        @click="showHintForCandle(1, 'lightCandle(1)')"
+      >
         <div class="flame"></div>
+        <div v-if="hints[1]" class="hint-bubble">
+          {{ hints[1] }}
+        </div>
       </div>
-      <div :class="['candle', candleLit ? 'lit' : '']" title="???">
+      <div
+        :class="['candle', candleLit ? 'lit' : '']"
+        title="???"
+        @click="showHintForCandle(2, '???')"
+      >
         <div class="flame"></div>
+        <div v-if="hints[2]" class="hint-bubble">
+          {{ hints[2] }}
+        </div>
       </div>
       <div class="candle">
         <div class="flame"></div>
@@ -66,6 +100,7 @@ function runCode() {
   display: flex;
   flex-direction: column;
   background: rgb(46, 45, 45);
+  overflow: hidden;
 }
 .code-box {
   display: flex;
@@ -74,6 +109,14 @@ function runCode() {
   padding: clamp(0.3rem, 2vw, 0.8rem);
   gap: 0.3rem;
   background: rgb(46, 45, 45);
+}
+.hint-text {
+  color: #ffee00;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  opacity: 0.85;
+  position: absolute;
 }
 .code-input {
   resize: none;
@@ -132,6 +175,14 @@ function runCode() {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.hint-text {
+  color: #ffee00;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  opacity: 0.85;
+  position: absolute;
+}
 .candle:nth-child(1) {
   height: clamp(3rem, 10vw, 5rem);
   bottom: 0;
@@ -162,6 +213,21 @@ function runCode() {
     box-shadow: 0 0 20px 5px yellow;
   }
 }
+.hint-bubble {
+  position: absolute;
+  bottom: 0rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffee00;
+  color: black;
+  padding: 1px 6px;
+  font-size: 0.4rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  opacity: 0.6;
+}
 @keyframes flicker {
   0%,
   100% {
@@ -184,6 +250,12 @@ function runCode() {
   }
   .candle:nth-child(1) {
     height: 2.8rem;
+  }
+  .run-button {
+    scale: 0.5;
+  }
+  .code-input {
+    scale: 0.5;
   }
 }
 </style>
