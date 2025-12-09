@@ -163,7 +163,7 @@ function checkGuess() {
   if (correctNames.includes(userGuess)) {
     isFinished.value = true;
     showCode.value = true;
-    emit("solved");
+    emit("solved", "flaggkingen");
   } else {
     wrongGuesses.value += 1;
     revealNextTile();

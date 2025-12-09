@@ -14,8 +14,8 @@ const f = new URL("../../assets/notes/f.mp3", import.meta.url).href;
 const g = new URL("../../assets/notes/g.mp3", import.meta.url).href;
 const a = new URL("../../assets/notes/a.mp3", import.meta.url).href;
 const b = new URL("../../assets/notes/b.mp3", import.meta.url).href;
-import image from "../../assets/notes/note.png";
 const noteMap: Record<string, string> = { c, d, e, f, g, a, b };
+const image = new URL("../../assets/notes/note.png", import.meta.url).href;
 const rotations = [-15, 8, -5, 12, -10, 6, -8];
 const checkAnswer = (arr: any) => {
   const index = arr.length - 1;
@@ -29,7 +29,6 @@ const checkAnswer = (arr: any) => {
       playerSequence = [];
     }
   }
-  
 };
 
 const playNote = (note: string) => {
