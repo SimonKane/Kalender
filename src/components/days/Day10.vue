@@ -1,17 +1,16 @@
 <script setup lang="js">
-    import { onMounted } from "vue";
-  import kodimage from "../../assets/kodsnippet.png";
+import { onMounted } from "vue";
+import kodimage from "../../assets/kodsnippet.png";
 onMounted(() => {
-  window.a = "tihi fel";
-  window.b = "Korrekt! lösen = b";
-  window.c = "very wrong";
-  window.d = "dunderfel";
-
-  const g = typeof globalThis !== "undefined" ? globalThis : window;
-  g.a = window.a;
-  g.b = window.b;
-  g.c = window.c;
-  g.d = window.d;
+  const script = document.createElement("script");
+  script.textContent = `
+    var a = "tihi fel";
+    var b = "Korrekt! lösen = b";
+    var c = "very wrong";
+    var d = "dunderfel";
+  `;
+  document.head.appendChild(script);
+  script.remove();
 });
 </script>
 
