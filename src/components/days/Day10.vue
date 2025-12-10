@@ -1,20 +1,28 @@
 <script setup lang="js">
+    import { onMounted } from "vue";
   import kodimage from "../../assets/kodsnippet.png";
+onMounted(() => {
+  window.a = "tihi fel";
+  window.b = "Korrekt! lösen = b";
+  window.c = "very wrong";
+  window.d = "dunderfel";
 
-window.a = "tihi fel"
-window.b="Korrekt! lösen = b"
-window.c="very wrong"
-window.d="dunderfel";
+  const g = typeof globalThis !== "undefined" ? globalThis : window;
+  g.a = window.a;
+  g.b = window.b;
+  g.c = window.c;
+  g.d = window.d;
+});
 </script>
 
 <template>
   <div class="container10">
     <img class="kodbild" :src="kodimage" alt="kodis" />
     <div class="answer-container">
-      <h4>A) NaN</h4>
-      <h4>B) "8102"</h4>
+      <h4>A) "8102"</h4>
+      <h4>B) 8102</h4>
       <h4>C) "102"</h4>
-      <h4>D) 34</h4>
+      <h4>D) 20</h4>
       <h3
         style="
           color: #ffee00;
@@ -22,7 +30,7 @@ window.d="dunderfel";
             2px 2px 4px rgba(0, 0, 0, 0.5);
         "
       >
-        console.log(answer)
+        console: answer
       </h3>
     </div>
   </div>
