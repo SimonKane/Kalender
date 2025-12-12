@@ -11,11 +11,11 @@ window.code = code;
 
 function handleClick() {
   const input = prompt(
-    "Gör en funktion eller logga koden. Tänk på att koden är vad du vill. let code = ???;  "
+    "Gör en funktion eller logga koden eller whatevs här 👇. Tänk på att koden är vad du vill. const code = ???;  "
   );
   if (input !== null) {
     const result = eval(input);
-    alert(result !== undefined ? result : "Vart hittar du detta nu då?");
+    alert(result !== undefined ? result : "Vart hittar du detta?");
   }
 }
 </script>
