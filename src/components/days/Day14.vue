@@ -13,7 +13,6 @@ const isOnMobile = ref(false);
 const haveKey = ref(false);
 const showText = ref(false);
 const code = ref(false);
-const hasCursorKey = ref(false);
 
 const handleClick = () => {
   if (
