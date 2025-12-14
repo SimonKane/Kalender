@@ -13,6 +13,7 @@ const isOnMobile = ref(false);
 const haveKey = ref(false);
 const showText = ref(false);
 const code = ref(false);
+const hasCursorKey = ref(false);
 
 const handleClick = () => {
   if (
@@ -35,7 +36,8 @@ const handleClick = () => {
 
   const el = document.querySelector(".container14");
   if (el) {
-    if (getComputedStyle(el).cursor.includes("nyckel.png")) {
+    const cursor = getComputedStyle(el).cursor;
+    if (cursor !== "not-allowed" && cursor.includes("url(")) {
       opened.value = true;
       setTimeout(() => {
         code.value = true;
