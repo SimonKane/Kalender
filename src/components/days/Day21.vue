@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
-const code = ref(`lightCandle(3);
+const code = ref(`lightCandle(4);
 
 const lightCandle = (nr) => {
-  thirdCandleLit.value = true
+  fourthCandleLit.value = true
 };`);
 
 const showCandles = ref(false);
@@ -30,7 +30,7 @@ const isCodeCorrect = computed(() => {
       declarationIndex = index;
     }
     if (
-      line.includes("lightCandle(3)") &&
+      line.includes("lightCandle(4)") &&
       !line.includes("const") &&
       !line.includes("let")
     ) {
@@ -85,10 +85,10 @@ function runCode() {
           <div class="candle lit">
             <div class="flame"></div>
           </div>
-          <div :class="['candle', candleLit ? 'lit' : '']">
+          <div class="candle lit">
             <div class="flame"></div>
           </div>
-          <div class="candle">
+          <div :class="['candle', candleLit ? 'lit' : '']">
             <div class="flame"></div>
           </div>
         </div>
@@ -265,6 +265,10 @@ function runCode() {
   height: clamp(2.5rem, 8vw, 3.8rem);
 }
 
+.candle:nth-child(3) {
+  height: clamp(3rem, 10vw, 4.8rem);
+}
+
 .flame {
   position: absolute;
   top: clamp(-0.4rem, -1.5vw, -0.6rem);
@@ -327,6 +331,9 @@ function runCode() {
   }
   .candle:nth-child(2) {
     height: 3.5rem;
+  }
+  .candle:nth-child(3) {
+    height: 4rem;
   }
 
   .code-editor {
