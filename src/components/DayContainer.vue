@@ -3,6 +3,10 @@ import { ref, defineAsyncComponent, shallowRef, computed } from "vue";
 import dayCodes from "../data/dayCodes.json";
 import tomteBildSrc from "../assets/tomte.png";
 
+const emit = defineEmits<{
+  (e: "christmas-complete"): void;
+}>();
+
 const today = new Date();
 const tomteBild = tomteBildSrc;
 
@@ -14,6 +18,9 @@ const inputCode = ref("");
 const codeError = ref("");
 const completedDays = ref<Record<number, boolean>>({});
 const selectedDay = ref<number | null>(null);
+const justSolvedDay24 = ref(false);
+const showFireworks = ref(true);
+
 const currentDay = computed(() => Math.min(24, Math.max(1, dayOfMonth.value)));
 const activeDay = computed(() => selectedDay.value ?? currentDay.value);
 const completed = computed(() => {
@@ -111,7 +118,9 @@ const openDoor = (day?: number) => {
   }
 
   if (targetDay >= 1 && targetDay <= 24) {
-    dayComponent.value = defineAsyncComponent(() => import(`./days/Day${targetDay}.vue`));
+    dayComponent.value = defineAsyncComponent(
+      () => import(`./days/Day${targetDay}.vue`)
+    );
   } else {
     dayComponent.value = null;
   }
@@ -142,6 +151,11 @@ function verifyCode() {
     completedDays.value[day] = true;
     persist();
     isOpen.value = false;
+    if (day === 24) {
+      justSolvedDay24.value = true;
+      showFireworks.value = true;
+      emit("christmas-complete");
+    }
 
     setTimeout(() => {}, 200);
   } else {
@@ -191,7 +205,9 @@ function verifyCode() {
       :style="{ visibility: completed && !isOpen ? 'visible' : 'hidden' }"
     >
       {{
-        activeDay === currentDay
+        activeDay === 24 && completedDays[24]
+          ? "BRA JOBBAT OCH GOD JUL! 🎄✨"
+          : activeDay === currentDay
           ? "Bra jobbat! Kom tillbaka igen imorgon"
           : "Bra Jobbat!"
       }}

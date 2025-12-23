@@ -1,13 +1,22 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import DayContainer from "./components/DayContainer.vue";
 import SnowEffect from "./components/SnowEffect.vue";
+import FireWorks from "./components/FireWorks.vue";
+
+const showFireworks = ref(false);
+
+function onChristmasComplete() {
+  showFireworks.value = true;
+}
 </script>
 
 <template>
   <div class="app-container">
+    <FireWorks v-if="showFireworks" />
     <SnowEffect />
     <h1 class="title">🎄THE Julkalender 2025!🎄</h1>
-    <DayContainer />
+    <DayContainer @christmas-complete="onChristmasComplete" />
   </div>
 </template>
 
