@@ -97,12 +97,6 @@ const openDoor = (day?: number) => {
     selectedDay.value = targetDay;
   }
 
-  // If day is already completed, just show the message
-  if (completedDays.value[targetDay]) {
-    isOpen.value = false;
-    return;
-  }
-
   const key = `day${targetDay}` as keyof typeof dayCodes;
   const todaysCode = dayCodes[key];
   expectedCode.value = todaysCode ?? null;
@@ -119,7 +113,7 @@ const openDoor = (day?: number) => {
 
   if (targetDay >= 1 && targetDay <= 24) {
     dayComponent.value = defineAsyncComponent(
-      () => import(`./days/Day${targetDay}.vue`)
+      () => import(`./days/Day${targetDay}.vue`),
     );
   } else {
     dayComponent.value = null;
@@ -208,8 +202,8 @@ function verifyCode() {
         activeDay === 24 && completedDays[24]
           ? "BRA JOBBAT OCH GOD JUL! 🎄✨"
           : activeDay === currentDay
-          ? "Bra jobbat! Kom tillbaka igen imorgon"
-          : "Bra Jobbat!"
+            ? "Bra jobbat! Kom tillbaka igen imorgon"
+            : "Bra Jobbat!"
       }}
     </div>
 
@@ -222,10 +216,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -239,10 +232,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -256,10 +248,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -273,10 +264,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -290,10 +280,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -307,10 +296,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -324,10 +312,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -451,7 +438,9 @@ template {
   font-weight: bold;
   color: #16160f;
   font-family: "Mountains of Christmas", cursive;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5),
+  text-shadow:
+    0 0 15px rgba(255, 215, 0, 0.8),
+    0 0 30px rgba(255, 215, 0, 0.5),
     3px 3px 6px rgba(0, 0, 0, 0.7);
   user-select: none;
   z-index: 5;
@@ -469,8 +458,11 @@ template {
   border: 3px solid #ffd700;
   transition: transform 0.8s ease;
   transform-style: preserve-3d;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4),
-    0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.6),
+    0 0 40px rgba(255, 215, 0, 0.4),
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
   max-width: 235px;
   min-width: 120px;
 }
@@ -520,7 +512,9 @@ template {
   z-index: 1;
   opacity: 0;
   transform-origin: center;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -661,9 +655,9 @@ template {
 }
 
 .day-cell.not-completed {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: linear-gradient(135deg, #3498db, #2980b9);
   color: white;
-  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
 }
 
 .day-cell.disabled {
