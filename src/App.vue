@@ -45,7 +45,9 @@ function onChristmasComplete() {
   z-index: 10;
   margin: 0;
   color: #ffd700;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3),
+  text-shadow:
+    0 0 10px rgba(255, 215, 0, 0.5),
+    0 0 20px rgba(255, 215, 0, 0.3),
     2px 2px 4px rgba(0, 0, 0, 0.5);
   font-weight: 700;
   text-align: center;
