@@ -23,7 +23,7 @@
       </button>
     </div>
 
-    <!-- Ghost som följer fingret/musen -->
+    <!-- Ghost that follows the pointer -->
     <div v-if="ghost.show" class="ghost" :style="ghostStyle" aria-hidden="true">
       {{ ghost.text }}
     </div>
@@ -42,53 +42,53 @@ import {
 } from "vue";
 
 const GOAL = ["console", ".", "warn", "(", "arg", ")"];
-const argValue = `⚠️  V A R N I N G  ⚠️
+const argValue = `⚠️  W A R N I N G  ⚠️
 
 ────────────────────────────────────────────────────────────
-Otillåten eller oväntad Grinch har upptäckts.
+An unauthorized or unexpected Grinch has been detected.
 
-Detta beteende kan leda till:
-• Instabila julklappar
-• Dataförlust eller korrupta tomtar
-• Oförutsedda bieffekter i nisseproduktionen
-• Oönskad nyfallen snö inomhus
+This behavior may lead to:
+• Unstable Christmas presents
+• Data loss or corrupted Santas
+• Unforeseen side effects in elf production
+• Unwanted fresh snow indoors
 
-Orsak:
-En intern funktion har anropats på ett sätt som inte
-stöds eller inte är avsett för direkt användning.
-Så tomtemor är faktist jätte jättearg.
+Cause:
+An internal function was called in a way that is unsupported
+or not intended for direct use.
+Mrs Claus is now extremely, extremely angry.
 
-Åtgärd:
-• Verifiera att du har varit jättesnäll
-• Kontrollera din omgivning, farligheter kan finnas runt varje hörn
-• Skrik
-• Se dokumentationen för rekommenderat tillvägagångssätt
-• Smaska gröt
+Action:
+• Verify that you have been exceptionally nice
+• Check your surroundings; danger may lurk around every corner
+• Scream
+• See the documentation for the recommended procedure
+• Feast on porridge
 
-Notering:
-En gång gick tomten och frågade för om inte en annan kunde då hoppa helt utan den som sa siffrorna på en gång. Istället kunde smeknamnen variera på ytliga bäddar av sandstrand och mat.
+Note:
+Once Santa asked whether somebody else could jump without the person who said all the numbers at once. Instead, nicknames could vary across shallow beds of beach sand and food.
 
 Anyways:
-Allt är egentligen klart. Bra jobbat!
+Everything is actually ready. Great job!
 
 ────────────────────────────────────────────────────────────
-Tidpunkt: ${new Date().toISOString()}
+Time: ${new Date().toISOString()}
 
-Status: Övervakning aktiv (snöfall: låg, lösenord: "Tomtevarning")
+Status: Monitoring active (snowfall: low, password: "SantaAlert")
 ────────────────────────────────────────────────────────────
 `;
-const argValue2 = `⚠️ VARNING 
+const argValue2 = `⚠️ WARNING
 
-Systemet är infekterat och har upptäckt oauktoriserad
-tomteverksamhet.
+The system is infected and has detected unauthorized
+Santa activity.
 
-Risker:
-• Förgiftad gröt
-• Griniga renar
-• Oväntad snö inomhus
+Risks:
+• Poisoned porridge
+• Grumpy reindeer
+• Unexpected snow indoors
 
-Rekommendation:
-Avbryt allt, skrik och återställ lösenord: "Tomtevarning".`;
+Recommendation:
+Abort everything, scream, and reset the password to "SantaAlert".`;
 
 function shuffle(arr) {
   const a = arr.slice();
@@ -113,7 +113,7 @@ const warnedOnce = ref(false);
 
 const lineEl = ref(null);
 
-// refs till token-DOM-noder
+// References to token DOM nodes
 const tokenEls = new Map();
 function setTokenRef(id, el) {
   if (!el) {
@@ -152,14 +152,14 @@ const ghostStyle = computed(() => ({
   height: ghost.h ? `${ghost.h}px` : "auto",
 }));
 
-// caret-position: vi placerar den vid “vänsterkant” av token på hoverIndex, annars efter sista
+// Place the caret at the left edge of the token at hoverIndex, or after the last token
 const caretStyle = computed(() => {
   const idx = hoverIndex.value;
   const line = lineEl.value;
   if (!line || idx === null) return {};
   const rectLine = line.getBoundingClientRect();
 
-  // Om idx pekar “mellan” tokens: caret står vid vänsterkant på token idx, annars efter sista
+  // If idx points between tokens, place the caret at the left edge of token idx
   const elAt = tokens.value[idx] ? tokenEls.get(tokens.value[idx].id) : null;
   if (elAt) {
     const r = elAt.getBoundingClientRect();
@@ -170,7 +170,7 @@ const caretStyle = computed(() => {
     };
   }
 
-  // efter sista
+  // After the last token
   const last = tokens.value[tokens.value.length - 1];
   const elLast = last ? tokenEls.get(last.id) : null;
   if (elLast) {
@@ -210,7 +210,7 @@ function checkSolved() {
 watch(tokens, () => nextTick(checkSolved), { deep: true });
 
 function onPointerDown(e, id) {
-  // vänsterklick/touch/pen: ok
+  // Left click, touch, and pen are supported
   const el = tokenEls.get(id);
   if (!el) return;
 
@@ -218,7 +218,7 @@ function onPointerDown(e, id) {
   el.setPointerCapture?.(e.pointerId);
 
   draggingId.value = id;
-  drag.active = false; // blir true efter threshold
+  drag.active = false; // Becomes true after the movement threshold
   drag.pointerId = e.pointerId;
   drag.startX = e.clientX;
   drag.startY = e.clientY;
@@ -239,19 +239,19 @@ function onPointerDown(e, id) {
 
 function onPointerMove(e) {
   if (e.pointerId !== drag.pointerId) return;
-  // stoppa scroll under drag
+  // Prevent scrolling while dragging
   e.preventDefault();
 
   const dx = e.clientX - drag.startX;
   const dy = e.clientY - drag.startY;
   const dist = Math.hypot(dx, dy);
 
-  // threshold så “klick” inte blir drag
+  // Movement threshold so a click does not become a drag
   if (!drag.active) {
     if (dist < 6) return;
     drag.active = true;
 
-    // visa ghost
+    // Show the drag ghost
     const item = tokens.value.find((t) => t.id === draggingId.value);
     const el = tokenEls.get(draggingId.value);
     if (!item || !el) return;
@@ -263,7 +263,7 @@ function onPointerMove(e) {
     ghost.show = true;
   }
 
-  // uppdatera ghost position med rAF
+  // Update the ghost position with rAF
   const targetX = e.clientX - drag.offsetX;
   const targetY = e.clientY - drag.offsetY;
 
@@ -291,7 +291,7 @@ function updateHoverIndex(clientX, clientY) {
 
   if (!rects.length) return;
 
-  // hitta närmaste token-center till pekarens position
+  // Find the token center closest to the pointer
   let best = rects[0];
   let bestD = Infinity;
   for (const it of rects) {
@@ -302,7 +302,7 @@ function updateHoverIndex(clientX, clientY) {
     }
   }
 
-  // om pekaren är till höger om närmaste token → sätt index efter den, annars före
+  // Put the index after the nearest token when the pointer is to its right
   const before = clientX < best.r.left + best.r.width / 2;
   const idx = before ? best.i : best.i + 1;
 
@@ -315,7 +315,7 @@ function onPointerUp(e) {
 
   cleanupPointer();
 
-  // om ingen riktig drag aktiverades → gör inget
+  // Do nothing if a real drag was never activated
   if (!drag.active) {
     draggingId.value = null;
     hoverIndex.value = null;
@@ -325,7 +325,7 @@ function onPointerUp(e) {
   const from = drag.fromIndex;
   let to = hoverIndex.value;
 
-  // om vi drar framåt i listan behöver vi justera målet när vi tar bort originalet
+  // Adjust the target when moving forward because the source item is removed first
   if (from !== null && to !== null) {
     if (to > from) to -= 1;
 
@@ -422,7 +422,7 @@ onMounted(() => {
   border: 1px dashed transparent;
   background: transparent;
 
-  /* superviktigt för mobil-drag */
+  /* Required for reliable dragging on mobile */
   touch-action: none;
   overflow: hidden;
   z-index: 10;
@@ -435,7 +435,7 @@ onMounted(() => {
 
 .tok {
   box-sizing: border-box;
-  min-height: 44px; /* bra touch target */
+  min-height: 44px; /* Comfortable touch target */
   padding: 4px 2px;
   border-radius: 0;
   border: none;

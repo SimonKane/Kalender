@@ -4,10 +4,10 @@ import kodimage from "../../assets/kodsnippet.png";
 onMounted(() => {
   const script = document.createElement("script");
   script.textContent = `
-    var a = "tihi fel";
-    var b = "Korrekt! lösen = b";
+    var a = "nope";
+    var b = "Correct! The password is b";
     var c = "very wrong";
-    var d = "dunderfel";
+    var d = "very, very wrong";
   `;
   document.head.appendChild(script);
   script.remove();
@@ -16,7 +16,7 @@ onMounted(() => {
 
 <template>
   <div class="container10">
-    <img class="kodbild" :src="kodimage" alt="kodis" />
+    <img class="kodbild" :src="kodimage" alt="Code puzzle" />
     <div class="answer-container">
       <h4>A) "8102"</h4>
       <h4>B) 8102</h4>

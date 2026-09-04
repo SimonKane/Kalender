@@ -47,7 +47,7 @@ function runCode() {
   errorMessage.value = "";
 
   if (!isCodeCorrect.value) {
-    errorMessage.value = "Something is error";
+    errorMessage.value = "Something is wrong";
     return;
   }
 

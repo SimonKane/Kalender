@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 
 const displayedText = ref("");
-const fullText = "Vem är jag?";
+const fullText = "Who am I?";
 const showTypewriter = ref(false);
 
 onMounted(() => {
@@ -23,7 +23,7 @@ onMounted(() => {
 
 <template>
   <div class="content-wrapper">
-    <h1>Hans mamma är min mammas enda barn</h1>
+    <h1>His mother is my mother's only child</h1>
     <h2 v-if="showTypewriter" class="typewriter">{{ displayedText }}</h2>
   </div>
 </template>

@@ -34,7 +34,7 @@ const handleGuess = (title: string) => {
 <template>
   <div class="container11">
     <div v-if="count === 0" class="startContainer">
-      <h1>Gissa filmen</h1>
+      <h1>Guess the movie</h1>
       <button @click="count = 1" class="go">GO -></button>
     </div>
 
@@ -54,10 +54,10 @@ const handleGuess = (title: string) => {
           :placeholder="errorMessage ? errorMessage : 'Movie title...'"
           v-model="guess"
           type="text"
-        /><button @click="handleGuess(guess)">Gissa!</button>
+        /><button @click="handleGuess(guess)">Guess!</button>
       </div>
     </div>
-    <div v-if="win" class="code"><h1>Snyggt jobbat "filmrebuskingen"</h1></div>
+    <div v-if="win" class="code"><h1>Great job! "movierebusking"</h1></div>
   </div>
 </template>
 

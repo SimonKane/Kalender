@@ -13,17 +13,25 @@ const toggleWord = (word: string) => {
 
 const isClicked = (word: string) => clickedWords.value.includes(word);
 
+const puzzleWords = [
+  { word: "Children", suffix: " " },
+  { word: "hung", suffix: " " },
+  { word: "ribbons", suffix: " " },
+  { word: "inviting", suffix: " " },
+  { word: "snowflakes", suffix: " " },
+  { word: "to", suffix: " " },
+  { word: "mingle", suffix: ". " },
+  { word: "Angels", suffix: " " },
+  { word: "sang", suffix: "; " },
+  { word: "trees", suffix: " " },
+  { word: "reached", suffix: " " },
+  { word: "ever", suffix: " " },
+  { word: "eastward", suffix: "." },
+];
+
 const revealedLetters = computed(() => {
-  const wordOrder = [
-    "under",
-    "granen",
-    "lagen",
-    "nissar",
-    "renar",
-    "advent",
-    "jultomten",
-  ];
-  return wordOrder
+  return puzzleWords
+    .map(({ word }) => word.toLowerCase())
     .filter((word) => clickedWords.value.includes(word))
     .map((word) => word[0])
     .join("");
@@ -33,96 +41,28 @@ const revealedLetters = computed(() => {
 <template>
   <div class="day16">
     <div class="text-container">
+      <h2>A message is hiding in plain sight</h2>
       <p class="christmas-text">
-        I fjärran hördes klockorna ringa från kyrkan, och granarna stod höga och
-        gröna med sina vita snötäcken. Familjer samlades runt eldstaden för att
-        dela berättelser om gamla
-        <span
-          class="clickable-word"
-          :class="{ clicked: isClicked('under') }"
-          @click="toggleWord('under')"
-          ><span class="letter first">u</span><span class="letter">n</span
-          ><span class="letter">d</span><span class="letter">e</span
-          ><span class="letter">r</span></span
-        >
-        och nya traditioner.
+        Click the festive words below and watch what remains.
       </p>
-      <p class="christmas-text">
-        Små ljus tändes i fönstren och skuggor dansade mot de snötäckta
-        markerna. Vid
+      <p class="christmas-text puzzle-sentence">
         <span
+          v-for="item in puzzleWords"
+          :key="item.word"
           class="clickable-word"
-          :class="{ clicked: isClicked('granen') }"
-          @click="toggleWord('granen')"
-          ><span class="letter first">g</span><span class="letter">r</span
-          ><span class="letter">a</span><span class="letter">n</span
-          ><span class="letter">e</span><span class="letter">n</span></span
-        >
-        hängde glittrande kulor och katten
-        <span
-          class="clickable-word"
-          :class="{ clicked: isClicked('lagen') }"
-          @click="toggleWord('lagen')"
-          ><span class="letter first">l</span><span class="letter">a</span
-          ><span class="letter">g</span><span class="letter">e</span
-          ><span class="letter">n</span></span
-        >
-        nära kaminen.
-      </p>
-      <p class="christmas-text">
-        Barn sjöng julsånger medan de äldre log och mindes sina barndomsjular.
-        Små
-        <span
-          class="clickable-word"
-          :class="{ clicked: isClicked('nissar') }"
-          @click="toggleWord('nissar')"
-          ><span class="letter first">n</span><span class="letter">i</span
-          ><span class="letter">s</span><span class="letter">s</span
-          ><span class="letter">a</span><span class="letter">r</span></span
-        >
-        spred glädje överallt.
-      </p>
-      <p class="christmas-text">
-        Utanför galopperade
-        <span
-          class="clickable-word"
-          :class="{ clicked: isClicked('renar') }"
-          @click="toggleWord('renar')"
-          ><span class="letter first">r</span><span class="letter">e</span
-          ><span class="letter">n</span><span class="letter">a</span
-          ><span class="letter">r</span></span
-        >
-        genom snön. I köket bakades kakor och doften blandades med värmen från
-        glöggen. Varje
-        <span
-          class="clickable-word"
-          :class="{ clicked: isClicked('advent') }"
-          @click="toggleWord('advent')"
-          ><span class="letter first">a</span><span class="letter">d</span
-          ><span class="letter">v</span><span class="letter">e</span
-          ><span class="letter">n</span><span class="letter">t</span></span
-        >
-        hade sitt speciella.
-      </p>
-      <p class="christmas-text">
-        Det var en kall decemberkväll när snön föll tätt över stugornas tak.
-        Barnen väntade spänt på
-        <span
-          class="clickable-word"
-          :class="{ clicked: isClicked('jultomten') }"
-          @click="toggleWord('jultomten')"
-          ><span class="letter first">j</span><span class="letter">u</span
-          ><span class="letter">l</span><span class="letter">t</span
-          ><span class="letter">o</span><span class="letter">m</span
-          ><span class="letter">t</span><span class="letter">e</span
-          ><span class="letter">n</span></span
-        >
-        medan stjärnorna glittrade.
+          :class="{ clicked: isClicked(item.word.toLowerCase()) }"
+          @click="toggleWord(item.word.toLowerCase())"
+        ><span
+            v-for="(letter, index) in item.word"
+            :key="index"
+            class="letter"
+            :class="{ first: index === 0 }"
+          >{{ letter }}</span>{{ item.suffix }}</span>
       </p>
 
-      <div v-if="clickedWords.length === 7" class="result">
+      <div v-if="clickedWords.length === puzzleWords.length" class="result">
         <p class="success-message">
-          Koden är ish: <strong>{{ revealedLetters }}</strong>
+          The code is: <strong>{{ revealedLetters }}</strong>
         </p>
       </div>
     </div>

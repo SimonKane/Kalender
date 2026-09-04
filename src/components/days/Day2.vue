@@ -4,7 +4,7 @@ import { ref } from "vue";
 const refValue = ref("ERROR 404");
 
 setTimeout(() => {
-  throw new Error("Error level super high threat: knut");
+  throw new Error("Error level super high threat: canute");
 }, 2000);
 </script>
 

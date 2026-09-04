@@ -89,7 +89,7 @@ function spawnEmoji() {
         }, 500);
       } else {
         // User missed a regular target - game over
-        endGame("Lite seg där, slowie");
+        endGame("Too slow, slowpoke!");
       }
     }
   }, 1000);
@@ -106,7 +106,7 @@ function clickEmoji() {
 
   // Check if user clicked Santa
   if (currentEmoji.value === "🎅") {
-    endGame("Oh no, inte tomten ju!");
+    endGame("Oh no, not Santa!");
     return;
   }
 
@@ -137,7 +137,7 @@ function endGame(message: string) {
 
 function winGame() {
   gameWon.value = true;
-  gameMessage.value = "Woho!";
+  gameMessage.value = "Woohoo!";
   emojiVisible.value = false;
   showCode.value = true;
   if (spawnTimeout) clearTimeout(spawnTimeout);
@@ -168,8 +168,8 @@ onUnmounted(() => {
 <template>
   <div class="game-container">
     <div v-if="!gameStarted" class="start-screen">
-      <h2>Skjut grinchen!</h2>
-      <button @click="startGame" class="start-btn">Starta spel</button>
+      <h2>Shoot the Grinch!</h2>
+      <button @click="startGame" class="start-btn">Start game</button>
     </div>
 
     <div
@@ -179,10 +179,10 @@ onUnmounted(() => {
     >
       <h2>{{ gameMessage }}</h2>
       <div v-if="showCode" class="code-reveal">
-        <div class="code">grinchskyttekingen</div>
+        <div class="code">grinchshooterking</div>
       </div>
       <button v-if="!gameWon" @click="playAgain" class="play-again-btn">
-        Spela igen
+        Play again
       </button>
     </div>
 

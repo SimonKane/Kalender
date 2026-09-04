@@ -29,7 +29,7 @@ const emit = defineEmits<{
 
 const sanitizeInput = (s: string) => {
   return s
-    .replace(/[^a-zA-ZÅÄÖåäö]/g, "")
+    .replace(/[^a-zA-Z]/g, "")
     .toUpperCase()
     .slice(0, WORD_LENGTH);
 };
@@ -53,7 +53,7 @@ const resetGame = () => {
 
 const submitGuess = () => {
   if (current.value.length !== WORD_LENGTH) {
-    message.value = `Behöver ${WORD_LENGTH} bokstäver`;
+    message.value = `Needs ${WORD_LENGTH} letters`;
     return;
   }
 
@@ -89,7 +89,7 @@ const submitGuess = () => {
   guesses.value[row.value] = guess;
 
   if (guess === TARGET) {
-    message.value = "WOHO!";
+    message.value = "WOOHOO!";
     won.value = true;
     row.value = MAX_GUESSES;
 
@@ -107,7 +107,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
     submitGuess();
   } else if (key === "Backspace") {
     current.value = current.value.slice(0, -1);
-  } else if (/^[a-zA-ZÅÄÖåäö]$/.test(key)) {
+  } else if (/^[a-zA-Z]$/.test(key)) {
     if (current.value.length < WORD_LENGTH) {
       current.value = sanitizeInput(current.value + key);
     }
@@ -162,11 +162,11 @@ onBeforeUnmount(() => {
 <template>
   <div ref="rootRef" class="wordle-root">
     <div class="card-header">
-      <h2 v-if="!won && row < MAX_GUESSES">Ordle</h2>
+      <h2 v-if="!won && row < MAX_GUESSES">Wordle</h2>
     </div>
 
     <div v-if="won" class="secret-wrap">
-      <h1>WOHO! Då vet du koden</h1>
+      <h1>WOOHOO! Now you know the code</h1>
     </div>
 
     <div v-else v-if="!won && row < MAX_GUESSES" class="grid">
@@ -190,15 +190,15 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <div v-if="!won && row >= MAX_GUESSES" class="loser">
-      <p>BUHU</p>
+      <p>BOOHOO</p>
       <button class="btn" @click="resetGame">
-        Verkar som du behöver extra försök
+        Looks like you need a few more tries
       </button>
     </div>
 
     <div class="controls">
       <div class="input-row">
-        <!-- <label for="hiddenInput" class="sr-only">Skriv gissning</label> -->
+        <!-- <label for="hiddenInput" class="sr-only">Enter guess</label> -->
         <input
           id="hiddenInput"
           class="hidden-input"
@@ -207,7 +207,7 @@ onBeforeUnmount(() => {
           :maxlength="WORD_LENGTH"
           autocomplete="off"
         />
-        <!-- <button @click="submitGuess" class="btn">Skicka</button> -->
+        <!-- <button @click="submitGuess" class="btn">Submit</button> -->
       </div>
     </div>
   </div>

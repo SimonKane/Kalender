@@ -5,17 +5,17 @@ declare global {
   }
 }
 
-const code = "vad du vill";
+const code = "whatever you want";
 
 window.code = code;
 
 function handleClick() {
   const input = prompt(
-    "Gör en funktion eller logga koden eller whatevs här 👇. Tänk på att koden är vad du vill. const code = ???;  "
+    "Write a function, log the code, or do whatever you like here 👇. Remember: the code is whatever you want. const code = ???;"
   );
   if (input !== null) {
     const result = eval(input);
-    alert(result !== undefined ? result : "Vart hittar du detta?");
+    alert(result !== undefined ? result : "Where can you find this?");
   }
 }
 </script>

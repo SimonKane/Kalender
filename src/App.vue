@@ -6,7 +6,7 @@ import SnowEffect from "./components/SnowEffect.vue";
 <template>
   <div class="app-container">
     <SnowEffect />
-    <h1 class="title">🎄THE Julkalender 2025!🎄</h1>
+    <h1 class="title">🎄THE Christmas Calendar 2025!🎄</h1>
     <DayContainer />
   </div>
 </template>

@@ -2,35 +2,23 @@
 const emit = defineEmits(["solved"]);
 function onCopy(e: ClipboardEvent) {
   e.preventDefault();
-  alert("Nej du, no copy copy tillåten 🎄");
+  alert("Nope, copying is not allowed 🎄");
 }
 </script>
 
 <template>
   <div class="functionCall">
     <h3>
-      gissaOutput("<span class="text"
-        >Gammal Ost Doftar Julmust Utan Lukt")</span
+      guessOutput("<span class="text"
+        >Magical Elves Race Round Yonder Making Every Reindeer Rejoice Yearly")</span
       >
     </h3>
   </div>
   <div class="code-wrapper">
     <pre class="snippet" @copy="onCopy">
-function gissaOutput(text: string) {
+function guessOutput(text: string) {
   const words = text.split(" ");
-  let result = "";
-
-  for (let word of words) {
-    result += word.charAt(1 - 1);
-    if (word[word.length - 1] === "r") break;
-  }
-
-  return (
-    result.replace(result, "JUL") +
-    text.split(" ")[3]?.charAt(0) +
-    text.split(" ")[4]?.charAt(0) +
-    text.split(" ")[5]?.charAt(0)
-  );
+  return words.map(word => word.charAt(0)).join("");
 }
     </pre>
   </div>

@@ -2,7 +2,7 @@
 import { ref, computed } from "vue";
 
 const userCode = ref(`const unlock = () = {
-  return [12, 15, 19, 5, 14, 15, 18, 4]
+  return [16, 1, 19, 19, 23, 15, 18, 4]
     .map(n => String.fromCharCode(n + 64))
     .join("")
 }
@@ -24,7 +24,7 @@ const runCode = () => {
     return;
   }
 
-  result.value = "lösenord";
+  result.value = "password";
 };
 </script>
 
@@ -32,13 +32,13 @@ const runCode = () => {
   <div class="day15">
     <div class="panel">
       <p class="question">
-        <strong>Varför funkar den inte?</strong>
+        <strong>Why doesn't it work?</strong>
       </p>
 
       <textarea class="text15" v-model="userCode" spellcheck="false"></textarea>
 
       <div class="button-row">
-        <button v-if="!result" class="button15" @click="runCode">Kör</button>
+        <button v-if="!result" class="button15" @click="runCode">Run</button>
         <p v-if="error" class="error">❌ {{ error }}</p>
       </div>
 

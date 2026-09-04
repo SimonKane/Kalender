@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, defineAsyncComponent, shallowRef, computed } from "vue";
 import dayCodes from "../data/dayCodes.json";
-import tomteBildSrc from "../assets/tomte.png";
+import santaImageSrc from "../assets/tomte.png";
 
 const today = new Date();
-const tomteBild = tomteBildSrc;
+const santaImage = santaImageSrc;
 
 const dayOfMonth = computed(() => today.getDate());
 const isOpen = ref(false);
@@ -148,7 +148,7 @@ function verifyCode() {
     setTimeout(() => {}, 200);
   } else {
     inputCode.value = "";
-    codeError.value = "Tyvärr fel kod, försök igen!";
+    codeError.value = "Sorry, wrong code. Try again!";
     setTimeout(() => (codeError.value = ""), 2000);
   }
 }
@@ -171,7 +171,7 @@ function verifyCode() {
         <div class="door right-door" :class="{ open: isOpen }"></div>
         <div class="door-number" v-if="!isOpen">{{ activeDay }}</div>
         <div v-if="completed && !isOpen" class="check-overlay">
-          <img :src="tomteBild" alt="Tomte" />
+          <img :src="santaImage" alt="Santa Claus" />
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@ function verifyCode() {
       <input
         type="text"
         v-model="inputCode"
-        :placeholder="codeError || 'Skriv in koden här'"
+        :placeholder="codeError || 'Enter the code here'"
         @keyup.enter="verifyCode"
         :class="{ 'input-error': !!codeError }"
       />
@@ -194,8 +194,8 @@ function verifyCode() {
     >
       {{
         activeDay === currentDay
-          ? "Bra jobbat! Kom tillbaka igen imorgon"
-          : "Bra Jobbat!"
+          ? "Great job! Come back again tomorrow"
+          : "Great job!"
       }}
     </div>
 
@@ -208,10 +208,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -225,10 +224,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -242,10 +240,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -259,10 +256,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -276,10 +272,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -293,10 +288,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>
@@ -310,10 +304,9 @@ function verifyCode() {
           class="day-cell"
           :class="{
             completed: completedDays[day],
-            'not-completed': !completedDays[day] && day <= dayOfMonth,
-            disabled: day > dayOfMonth,
+            'not-completed': !completedDays[day],
           }"
-          @click="day <= dayOfMonth ? openDoor(day) : null"
+          @click="openDoor(day)"
         >
           <div class="day-number">{{ day }}</div>
         </div>

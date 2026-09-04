@@ -21,7 +21,7 @@ const handleClick = () => {
     !isOnMobile.value
   ) {
     alert(
-      "Detta pussel kräver HELST mus och DevTools, men det finns en nyckel"
+      "This puzzle works best with a mouse and DevTools, but there is a key"
     );
     isOnMobile.value = true;
   }
@@ -64,7 +64,7 @@ const handleKeyClick = () => {
       alt="door"
     />
     <img v-else class="open" :src="open" alt="door" />
-    <h1 v-if="code" class="code14">{{ opened ? '"tomtetoakingen"' : "" }}</h1>
+    <h1 v-if="code" class="code14">{{ opened ? '"santatoiletking"' : "" }}</h1>
     <Teleport v-if="isOnMobile" to="body">
       <Transition name="key-pickup">
         <img
@@ -72,7 +72,7 @@ const handleKeyClick = () => {
           @click="handleKeyClick"
           class="key"
           :src="key"
-          alt="nyckel"
+          alt="key"
         />
       </Transition>
       <h3
@@ -88,7 +88,7 @@ const handleKeyClick = () => {
         "
         v-if="showText"
       >
-        "Nyckel" collected
+        "Key" collected
       </h3>
     </Teleport>
   </div>

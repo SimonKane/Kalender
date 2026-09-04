@@ -5,31 +5,20 @@ const guess = ref("");
 const errorMessage = ref("");
 const win = ref(false);
 
-const block1 = "Star Wars";
-const block2 = "Family Guy";
-const block3 = "nalle puh";
-const block4 = "toy story";
-const block5 = "sagan om ringen";
-const block6 = "tomten";
+const answers = [
+  ["Star Wars"],
+  ["Family Guy"],
+  ["Winnie the Pooh", "Winnie-the-Pooh"],
+  ["Toy Story"],
+  ["The Lord of the Rings", "Lord of the Rings"],
+  ["Santa Claus", "Santa"],
+];
 
 const handleGuess = (title: string) => {
-  let movie = "";
+  const validAnswers = answers[count.value - 1] ?? [];
+  const normalizedGuess = title.trim().toLowerCase();
 
-  if (count.value === 1) {
-    movie = block1;
-  } else if (count.value === 2) {
-    movie = block2;
-  } else if (count.value === 3) {
-    movie = block3;
-  } else if (count.value === 4) {
-    movie = block4;
-  } else if (count.value === 5) {
-    movie = block5;
-  } else if (count.value === 6) {
-    movie = block6;
-  }
-
-  if (title.toLowerCase() === movie.toLowerCase()) {
+  if (validAnswers.some((answer) => answer.toLowerCase() === normalizedGuess)) {
     count.value++;
     guess.value = "";
     errorMessage.value = "";
@@ -46,7 +35,7 @@ const handleGuess = (title: string) => {
 <template>
   <div class="container18">
     <div v-if="count === 0" class="startContainer">
-      <h1>Gissa Filmen / Serien / Karaktären</h1>
+      <h1>Guess the Movie / TV Series / Character</h1>
       <button @click="count = 1" class="go">GO -></button>
     </div>
 
@@ -60,15 +49,15 @@ const handleGuess = (title: string) => {
 
       <div v-if="!win" class="guess-container">
         <input
-          :placeholder="errorMessage ? errorMessage : 'Gissa här...'"
+          :placeholder="errorMessage ? errorMessage : 'Guess here...'"
           v-model="guess"
           type="text"
-        /><button @click="handleGuess(guess)">Gissa!</button>
+        /><button @click="handleGuess(guess)">Guess!</button>
       </div>
     </div>
     <div v-if="win" class="code">
-      <h1>Snyggt jobbat</h1>
-      <span class="code-text">"filmseriekaraktärsgissarkingen"</span>
+      <h1>Great job!</h1>
+      <span class="code-text">"screenquizking"</span>
     </div>
   </div>
 </template>

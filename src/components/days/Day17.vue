@@ -4,7 +4,7 @@ const codeSnippets = [
   'console.log([] + " " + []);',
   'console.log((+("1" + "7")).toString())',
   'console.log(2 != "2")',
-  'console.log("snö" * 3 + "3")',
+  'console.log("snow" * 3 + "3")',
 ];
 </script>
 

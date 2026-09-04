@@ -1,13 +1,13 @@
 <template>
   <div class="flagle-game">
-    <h1 v-if="showCode" class="code-heading">Bra jobbat "Flaggkingen"</h1>
+    <h1 v-if="showCode" class="code-heading">Great job! "Flag King"</h1>
 
     <template v-else>
       <div class="flag-wrapper" v-if="currentFlag">
         <img
           class="flag-image"
           :src="currentFlag.image"
-          :alt="`Flagga för ${currentFlag.name}`"
+          :alt="`Flag of ${currentFlag.name}`"
         />
 
         <div class="overlay">
@@ -37,7 +37,7 @@
 
         <p class="message">
           {{
-            message ? message : currentIndex > 0 ? "  " : "Kör hårt flaggnörd"
+            message ? message : currentIndex > 0 ? "  " : "Good luck, flag nerd!"
           }}
         </p>
       </div>
@@ -69,12 +69,12 @@ const flags = ref<Flag[]>([
       "https://upload.wikimedia.org/wikipedia/commons/0/02/Flag_of_Gibraltar.svg",
   },
   {
-    name: "Serbien",
+    name: "Serbia",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/f/ff/Flag_of_Serbia.svg",
   },
   {
-    name: "Cypern",
+    name: "Cyprus",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Cyprus.svg",
   },
@@ -163,13 +163,13 @@ function checkGuess() {
   if (correctNames.includes(userGuess)) {
     isFinished.value = true;
     showCode.value = true;
-    emit("solved", "flaggkingen");
+    emit("solved", "flagking");
   } else {
     wrongGuesses.value += 1;
     revealNextTile();
     guess.value = "";
     if (wrongGuesses.value >= maxWrongGuesses) {
-      message.value = "För många fel. NY flagga coming up!";
+      message.value = "Too many wrong guesses. A new flag is coming up!";
       setTimeout(() => {
         nextFlag();
       }, 800);
@@ -180,7 +180,7 @@ function checkGuess() {
       message.value = `Out of guesses. It was ${currentFlag.value.name}.`;
       isFinished.value = true;
     } else {
-      message.value = `Fel, testa igen (${wrongGuesses.value}/${maxWrongGuesses})`;
+      message.value = `Wrong, try again (${wrongGuesses.value}/${maxWrongGuesses})`;
     }
   }
 }

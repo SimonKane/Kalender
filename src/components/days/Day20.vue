@@ -5,23 +5,23 @@
     <div class="content">
       <div class="item">
         <span class="letter">A</span>
-        <span class="text">Exakt två av B, C och D är sanna</span>
+        <span class="text">Exactly two of B, C, and D are true.</span>
       </div>
       <div class="item">
         <span class="letter">B</span>
-        <span class="text">E är sann</span>
+        <span class="text">E is true.</span>
       </div>
       <div class="item">
         <span class="letter">C</span>
-        <span class="text">A är falsk.</span>
+        <span class="text">A is false.</span>
       </div>
       <div class="item">
         <span class="letter">D</span>
-        <span class="text">Raden ovanför (C) ljuger.</span>
+        <span class="text">The statement above (C) is lying.</span>
       </div>
       <div class="item">
         <span class="letter">E</span>
-        <span class="text">Exakt en av A och D är sann</span>
+        <span class="text">Exactly one of A and D is true.</span>
       </div>
     </div>
   </div>

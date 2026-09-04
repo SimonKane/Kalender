@@ -4,7 +4,7 @@
 export function FindWhatsMissing() {
     return (
         &lt;div className="tipp-tapp"&gt;
-            &lt;Header title="Tomte Badass" /&gt;
+            &lt;Header title="Badass Santa" /&gt;
             &lt;main&gt;
                 &lt;Sidebar items={["Home", "Settings", "Profile"]} /&gt;
                 &lt;Content&gt;
@@ -25,7 +25,7 @@ export function FindWhatsMissing() {
     );
 }
 
-//Ovan är en komponent
+//Above is a component
 </pre
     >
   </div>

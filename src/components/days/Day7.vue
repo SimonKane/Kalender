@@ -46,7 +46,7 @@ const playNote = (note: string) => {
     <h1>
       {{
         finnishGame
-          ? `Jättefint! "Bra jävla låt"`
+          ? `Beautiful! "Damn good song"`
           : "We Wish You A Merry Christmas!"
       }}
     </h1>
