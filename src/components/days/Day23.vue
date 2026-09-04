@@ -10,6 +10,7 @@ const testResult = ref<string | null>(null);
 const showCode = ref(false);
 
 function normalize(s: string) {
+  console.log(s);
   return String(s).replace(/\s+/g, "").toLowerCase();
 }
 
@@ -29,7 +30,6 @@ function runUserFunction(str: string): string {
     return "";
   }
 }
-
 function testFunction() {
   testResult.value = null;
   showCode.value = false;
@@ -41,11 +41,13 @@ function testFunction() {
   if (t1 && t2 && t3) {
     showCode.value = true;
     testResult.value = "great";
-  } else if (!testResult.value) {
-    testResult.value = "Nope";
-    setTimeout(() => {
-      testResult.value = null;
-    }, 3000);
+  } else {
+    if (!testResult.value) {
+      testResult.value = "Nope";
+      setTimeout(() => {
+        testResult.value = null;
+      }, 3000);
+    }
   }
 }
 </script>
@@ -78,6 +80,7 @@ function testFunction() {
 </template>
 
 <style scoped>
+/* Keep all content inside the parent */
 .starry-bg {
   position: relative;
   width: 100%;
@@ -93,23 +96,29 @@ function testFunction() {
   background: linear-gradient(180deg, #0d1b3c 0%, #1a237e 60%, #21213b 100%);
 }
 
+/* The card itself, with no extra white box */
 .puzzle-container {
   width: 100%;
   max-width: 420px;
   box-sizing: border-box;
+
   padding: 1rem;
-  margin: 0;
+  margin: 0; /* No outer margins that can cause overflow */
+
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+
   border-radius: 14px;
-  background: transparent;
-  box-shadow: none;
+  background: transparent; /* Remove the white box */
+  box-shadow: none; /* Restore this if a shadow is wanted */
   overflow: scroll;
   min-width: 0;
   min-height: 0;
 }
 
+/* Kodblock */
+/* Give the code block an editor feel without changing its position */
 .code-block {
   border-radius: 12px;
   overflow: hidden;
@@ -119,19 +128,23 @@ function testFunction() {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
+/* Base style for all locked lines */
 .code-line {
   margin: 0;
-  padding: 0.6rem;
+  padding: 0.6rem; /* Preserve spacing */
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", monospace;
   font-size: 0.9rem;
   display: block;
   white-space: normal;
   border-top: 0;
+
+  /* Editor styling */
   background: rgba(255, 255, 255, 0.96);
   color: #0b1220;
 }
 
+/* Make the instruction line look like a comment */
 .code-line:first-child {
   color: #2f6f4e;
   background: rgba(255, 255, 255, 0.92);
@@ -139,6 +152,7 @@ function testFunction() {
   font-size: 0.88rem;
 }
 
+/* Emphasize the function header */
 .code-line:nth-child(2) {
   color: #1a237e;
   font-weight: 800;
@@ -147,6 +161,7 @@ function testFunction() {
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+/* Style the textarea as an indented code body */
 .code-textarea {
   width: 100%;
   box-sizing: border-box;
@@ -159,19 +174,24 @@ function testFunction() {
     "Liberation Mono", monospace;
   font-size: 0.85rem;
   line-height: 1.25;
-  padding: 0.6rem;
-  padding-left: 1.25rem;
+
+  padding: 0.6rem; /* Preserve spacing */
+  padding-left: 1.25rem; /* Small code indent without affecting the outer size */
+
   background: rgba(255, 255, 255, 0.96);
   color: #111;
   outline: none;
-  border: 0;
-  border-left: 3px solid rgba(26, 35, 126, 0.25);
+
+  border: 0; /* Remove the border between lines */
+  border-left: 3px solid rgba(26, 35, 126, 0.25); /* Subtle marker */
 }
 
+/* Subtle golden focus glow */
 .code-textarea:focus {
   box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.55);
 }
 
+/* Make the closing brace slightly darker */
 .code-block .code-line:last-child {
   color: #0b1220;
   font-weight: 700;
@@ -179,6 +199,7 @@ function testFunction() {
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+/* Add button shine without increasing its size */
 .test-btn {
   padding: 0.5rem 0.85rem;
   font-size: 0.95rem;
@@ -194,6 +215,9 @@ function testFunction() {
 
 .test-btn:hover {
   filter: brightness(1.03);
+}
+
+.test-btn:hover {
   background: #b71c1c;
 }
 
@@ -203,7 +227,7 @@ function testFunction() {
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6),
     0 0 30px rgba(255, 215, 0, 0.4);
 }
-
+/* Scale down the entire block on phones and touch devices */
 @media (max-width: 600px) {
   .starry-bg {
     display: flex;
@@ -214,6 +238,7 @@ function testFunction() {
   .puzzle-container {
     transform: scaleY(0.6);
     transform-origin: center;
+    width: 100%;
     max-width: 520px;
     gap: 0.4rem;
     overflow: hidden;
@@ -222,6 +247,7 @@ function testFunction() {
 
   .code-block {
     box-shadow: none;
+
     transform: scaleX(0.8);
   }
 
@@ -238,7 +264,6 @@ function testFunction() {
     font-size: 5px;
     line-height: 1.1;
   }
-
   .test-btn {
     padding: 0.35rem 0.6rem;
     font-size: 0.8rem;

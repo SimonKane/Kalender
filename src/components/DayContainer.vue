@@ -3,6 +3,10 @@ import { ref, defineAsyncComponent, shallowRef, computed } from "vue";
 import dayCodes from "../data/dayCodes.json";
 import santaImageSrc from "../assets/tomte.png";
 
+const emit = defineEmits<{
+  (e: "christmas-complete"): void;
+}>();
+
 const today = new Date();
 const santaImage = santaImageSrc;
 
@@ -14,6 +18,9 @@ const inputCode = ref("");
 const codeError = ref("");
 const completedDays = ref<Record<number, boolean>>({});
 const selectedDay = ref<number | null>(null);
+const justSolvedDay24 = ref(false);
+const showFireworks = ref(true);
+
 const currentDay = computed(() => Math.min(24, Math.max(1, dayOfMonth.value)));
 const activeDay = computed(() => selectedDay.value ?? currentDay.value);
 const completed = computed(() => {
@@ -90,12 +97,6 @@ const openDoor = (day?: number) => {
     selectedDay.value = targetDay;
   }
 
-  // If day is already completed, just show the message
-  if (completedDays.value[targetDay]) {
-    isOpen.value = false;
-    return;
-  }
-
   const key = `day${targetDay}` as keyof typeof dayCodes;
   const todaysCode = dayCodes[key];
   expectedCode.value = todaysCode ?? null;
@@ -112,7 +113,7 @@ const openDoor = (day?: number) => {
 
   if (targetDay >= 1 && targetDay <= 24) {
     dayComponent.value = defineAsyncComponent(
-      () => import(`./days/Day${targetDay}.vue`)
+      () => import(`./days/Day${targetDay}.vue`),
     );
   } else {
     dayComponent.value = null;
@@ -144,6 +145,11 @@ function verifyCode() {
     completedDays.value[day] = true;
     persist();
     isOpen.value = false;
+    if (day === 24) {
+      justSolvedDay24.value = true;
+      showFireworks.value = true;
+      emit("christmas-complete");
+    }
 
     setTimeout(() => {}, 200);
   } else {
@@ -193,9 +199,11 @@ function verifyCode() {
       :style="{ visibility: completed && !isOpen ? 'visible' : 'hidden' }"
     >
       {{
-        activeDay === currentDay
-          ? "Great job! Come back again tomorrow"
-          : "Great job!"
+        activeDay === 24 && completedDays[24]
+          ? "GREAT JOB, AND MERRY CHRISTMAS! 🎄✨"
+          : activeDay === currentDay
+            ? "Great job! Come back again tomorrow"
+            : "Great job!"
       }}
     </div>
 
@@ -430,7 +438,9 @@ template {
   font-weight: bold;
   color: #16160f;
   font-family: "Mountains of Christmas", cursive;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5),
+  text-shadow:
+    0 0 15px rgba(255, 215, 0, 0.8),
+    0 0 30px rgba(255, 215, 0, 0.5),
     3px 3px 6px rgba(0, 0, 0, 0.7);
   user-select: none;
   z-index: 5;
@@ -448,8 +458,11 @@ template {
   border: 3px solid #ffd700;
   transition: transform 0.8s ease;
   transform-style: preserve-3d;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.4),
-    0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.6),
+    0 0 40px rgba(255, 215, 0, 0.4),
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
   max-width: 235px;
   min-width: 120px;
 }
@@ -499,7 +512,9 @@ template {
   z-index: 1;
   opacity: 0;
   transform-origin: center;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -640,9 +655,9 @@ template {
 }
 
 .day-cell.not-completed {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: linear-gradient(135deg, #3498db, #2980b9);
   color: white;
-  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
 }
 
 .day-cell.disabled {
